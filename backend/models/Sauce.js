@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+//Sauce Mongoose Schema
+
 const sauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true, maxlength : [15, 'Nombre de caractéres limité a 15'] },
