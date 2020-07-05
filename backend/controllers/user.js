@@ -10,23 +10,23 @@ exports.signup = (req, res, next) => {
   if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.{6,})/.test(req.body.password)) {
     return res.status(401).json({ error: 'Le mot de passe doit contenir une lettre majuscule, une minuscule et au moins 1 chiffre (6 caractères min)' });
   } else {
-   // Password is acceptable, hash it
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-        const user = new User ({
-            email: req.body.email,
-            password: hash
+    // Password is acceptable, hash it
+    bcrypt.hash(req.body.password, 10)
+      .then(hash => {
+        const user = new User({
+          email: req.body.email,
+          password: hash
         })
         user.save()
-        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch(error => res.status(400).json({ error }));
-    })
-    .catch(error => res.status(500).json({ error})); 
- }
+          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+          .catch(error => res.status(400).json({ error }));
+      })
+      .catch(error => res.status(500).json({ error }));
+  }
 };
 
 exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email }) // Find user. 
+  User.findOne({ email: req.body.email }) // Find user. 
     .then(user => {
       if (!user) { // If user not found
         return res.status(401).json({ error: 'Utilisateur non trouvé !' });
@@ -37,17 +37,17 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({ //True
-	            userId: user._id,
-	            token: jwt.sign( 
-	              {userId : user._id},
-	              'RANDOM_TOKEN_SECRET',
-	              {expiresIn:'24h'}
-	            ) 
+            userId: user._id,
+            token: jwt.sign(
+              { userId: user._id },
+              'RANDOM_TOKEN_SECRET',
+              { expiresIn: '2h' }
+            )
           });
-	        })
-	        .catch(error => res.status(500).json({ error }));
-	    })
-	    .catch(error => res.status(500).json({ error }));
-	};
+        })
+        .catch(error => res.status(500).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
+};
 
 

@@ -1,11 +1,15 @@
 # So-Peckocko
-Openclassrooms - Projet 6 - "Construction d'une API sécurisée pour une application d'avis gastronomiques"
+## Openclassrooms - Projet 6 - "Construction d'une API sécurisée pour une application d'avis gastronomiques"
 
-Technologies utilisées:
+Une application dans laquelle les utilisateurs peuvent ajouter leurs sauces préférées et liker ou disliker les sauces proposées par les autres.
+
+### Technologies utilisées:
 
 JS, Node.js, MongoDB, Mongoose, Express
 
-Lancer l'API : 
+### Pour lancer l'API : 
 
-/backend avec 'nodemon server'
-/frontend avec 'ng serve'
+1. Cloner l'api
+2. 'npm install' dans les dossiers /backend et /frontend
+2. 'ng serve' dans /frontend
+3. 'nodemon server' dans /backend 
