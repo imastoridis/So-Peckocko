@@ -1,18 +1,32 @@
 const Sauce = require('../models/Sauce')
-const fs = require('fs') //filesystem
+const fs = require('fs')
 
 /** Controllers for creation, modification,deletion and liking/disliking of sauces **/
+
+//Get one sauce
+exports.getOneSauce = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id })
+    .then(sauce => res.status(200).json(sauce))
+    .catch(error => res.status(404).json({ error }));
+};
+
+// Get all the sauces
+exports.getAllSauces = (req, res, next) => {
+  Sauce.find()
+    .then(sauces => res.status(200).json(sauces))
+    .catch(error => res.status(400).json({ error }));
+}
 
 //Create a new sauce
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
-  delete sauceObject._id; //l'id est généré automatiquement, donc on le delete ??
-  const sauce = new Sauce({ // création d'un nouveau sauce avec les données du body
+  delete sauceObject._id;
+  const sauce = new Sauce({
     ...sauceObject,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
-  sauce.save() // on save le nouveau sauce
-    .then(() => res.status(201).json({ message: 'Objet enregistré !' })) //promesse 
+  sauce.save()
+    .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
     .catch(error => res.status(400).json({ error }));
 }
 
@@ -42,19 +56,6 @@ exports.deleteSauce = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-//Get one sauce
-exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-    .then(sauce => res.status(200).json(sauce))
-    .catch(error => res.status(404).json({ error }));
-};
-
-// Get all the sauces
-exports.getAllSauces = (req, res, next) => {
-  Sauce.find()
-    .then(sauces => res.status(200).json(sauces))
-    .catch(error => res.status(400).json({ error }));
-}
 
 //Like a sauce
 exports.likeSauce = (req, res, next) => {
@@ -108,6 +109,6 @@ exports.likeSauce = (req, res, next) => {
         .catch((error) => { res.status(400).json({ error: error }); });
       break;
     default:
-      console.error('not today : mauvaise requête');
+      console.error('mauvaise requête');
   }
 }

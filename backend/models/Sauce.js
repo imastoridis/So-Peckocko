@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-//Sauce Mongoose Schema
+/** Sauce Mongoose Schema **/
 
 const sauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true, maxlength: [15, 'Nombre de caractéres limité a 15'] },
-  manufacturer: { type: String, required: true, maxlength: [15, 'Nombre de caractéres limité a 15'] },
+  manufacturer: { type: String, required: true, maxlength: [30, 'Nombre de caractéres limité a 30'] },
   description: { type: String, required: true },
   mainPepper: { type: String, required: true, maxlength: [15, 'Nombre de caractéres limité a 15'] },
   imageUrl: { type: String, required: true },

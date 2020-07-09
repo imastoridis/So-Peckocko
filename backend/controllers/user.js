@@ -2,12 +2,15 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const User = require('../models/User')
 
-// Functions for user signup/login
+const TOKEN = process.env.TOKEN;
+
+/**  Functions for user signup/login **/
+
+// SIGNUP 
 
 exports.signup = (req, res, next) => {
-  // Test password strength
-  //Password is not acceptable
-  if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.{6,})/.test(req.body.password)) {
+  // Password is not acceptable
+  if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.{6,})/.test(req.body.password)) {   // Test password strength
     return res.status(401).json({ error: 'Le mot de passe doit contenir une lettre majuscule, une minuscule et au moins 1 chiffre (6 caractères min)' });
   } else {
     // Password is acceptable, hash it
@@ -25,6 +28,8 @@ exports.signup = (req, res, next) => {
   }
 };
 
+// LOGIN 
+
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email }) // Find user. 
     .then(user => {
@@ -40,8 +45,8 @@ exports.login = (req, res, next) => {
             userId: user._id,
             token: jwt.sign(
               { userId: user._id },
-              'RANDOM_TOKEN_SECRET',
-              { expiresIn: '2h' }
+              TOKEN,
+              { expiresIn: '8h' }
             )
           });
         })
